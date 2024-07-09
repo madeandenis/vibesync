@@ -4,10 +4,16 @@ config();
 interface IAppConfig {
   general: {
     nodeEnv: string;
-    port: number;
-    host: string;
-    frontendBaseUrl: string;
-    backendBaseUrl: string;
+    frontend: {
+      host: string;
+      port: number;
+      baseUrl: string;
+    };
+    backend: {
+      host: string;
+      port: number;
+      baseUrl: string;
+    };
     appName: string;
     appVersion: string;
   };
@@ -31,29 +37,35 @@ interface IAppConfig {
 
 const AppConfig: IAppConfig = {
   general: {
-    nodeEnv: process.env.NODE_ENV,
-    port: Number(process.env.PORT),
-    host: process.env.HOST,
-    frontendBaseUrl: process.env.FRONTEND_BASE_URL,
-    backendBaseUrl: process.env.BACKEND_BASE_URL,
-    appName: process.env.APP_NAME,
-    appVersion: process.env.APP_VERSION,
+    nodeEnv: process.env.NODE_ENV!,
+    frontend: {
+      host: process.env.FRONTEND_HOST!,
+      port: Number(process.env.FRONTEND_PORT!),
+      baseUrl: `http://${process.env.FRONTEND_HOST!}:${process.env.FRONTEND_PORT!}`
+    },
+    backend: {
+      host: process.env.BACKEND_HOST!,
+      port: Number(process.env.BACKEND_PORT!),
+      baseUrl: `http://${process.env.BACKEND_HOST!}:${process.env.BACKEND_PORT!}`
+    },
+    appName: process.env.APP_NAME!,
+    appVersion: process.env.APP_VERSION!,
   },
   auth: {
-    jwtSecret: process.env.JWT_SECRET,
-    jwtExpiresIn: Number(process.env.jwtExpiresIn),
+    jwtSecret: process.env.JWT_SECRET!,
+    jwtExpiresIn: Number(process.env.jwtExpiresIn!),
   },
   security: {
-    corsOrigin: process.env.CORS_ORIGIN,
-    rateLimit: Number(process.env.RATE_LIMIT),
+    corsOrigin: process.env.CORS_ORIGIN!,
+    rateLimit: Number(process.env.RATE_LIMIT!),
   },
   featureFlags: {
     featureX: process.env.FEATURE_FLAG_X === 'true',
     maintenanceMode: process.env.MAINTENANCE_MODE === 'true',
   },
   miscellaneous: {
-    appTheme: process.env.APP_THEME,
-    defaultLanguage: process.env.DEFAULT_LANGUAGE,
+    appTheme: process.env.APP_THEME!,
+    defaultLanguage: process.env.DEFAULT_LANGUAGE!,
   },
 };
 
