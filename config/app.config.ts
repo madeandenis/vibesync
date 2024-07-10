@@ -14,6 +14,10 @@ interface IAppConfig {
       port: number;
       baseUrl: string;
     };
+    spotify: {
+      clientId: string;
+      secretId: string;
+    },
     appName: string;
     appVersion: string;
   };
@@ -47,6 +51,10 @@ const AppConfig: IAppConfig = {
       host: process.env.BACKEND_HOST!,
       port: Number(process.env.BACKEND_PORT!),
       baseUrl: `http://${process.env.BACKEND_HOST!}:${process.env.BACKEND_PORT!}`
+    },
+    spotify: {
+      clientId: process.env.CLIENT_ID,  
+      secretId: process.env.CLIENT_SECRET, 
     },
     appName: process.env.APP_NAME!,
     appVersion: process.env.APP_VERSION!,
