@@ -7,7 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class UsersService {
+class UsersService {
+  
+  private readonly logger = new Logger(UsersService.name);
   
   constructor(
     @InjectRepository(User)
@@ -19,7 +21,7 @@ export class UsersService {
     try {
       return await this.userRepository.save(user);
     } catch (error) {
-      Logger.error('Failed to create user:', error);
+      this.logger.error('Failed to create user:', error);
       return null;
     }
   }
@@ -28,7 +30,7 @@ export class UsersService {
     try {
       return await this.userRepository.find();
     } catch (error) {
-      Logger.error('Failed to find users:', error);
+      this.logger.error('Failed to find users:', error);
       return [];
     }
   }
@@ -41,11 +43,28 @@ export class UsersService {
         }
       });
       if (!user) {
-        Logger.log(`User with id ${id} not found`);
+        this.logger.log(`User with id ${id} not found`);
       }
       return user;
     } catch (error) {
-      Logger.error(`Failed to find user with id ${id}:`, error);
+      this.logger.error(`Failed to find user with id ${id}:`, error);
+      return null;
+    }
+  }
+
+  async findOneParams(params: Partial<User>): Promise<User | null> {
+    try {
+      const user = await this.userRepository.findOne(
+        {
+         where: { ...params } 
+        }
+      );
+      if (!user) {
+        this.logger.log(`User with parameters ${JSON.stringify(params)} not found`);
+      }
+      return user;
+    } catch (error) {
+      this.logger.error(`Failed to find user with parameters ${JSON.stringify(params)}:`, error);
       return null;
     }
   }
@@ -58,14 +77,14 @@ export class UsersService {
         }
       });
       if (!user) {
-        Logger.log(`User with id ${id} not found`);
+        this.logger.log(`User with id ${id} not found`);
         return null;
       }
 
       user = { ...user, ...updateUserDto };
       return await this.userRepository.save(user);
     } catch (error) {
-      Logger.error(`Failed to update user with id ${id}:`, error);
+      this.logger.error(`Failed to update user with id ${id}:`, error);
       return null;
     }
   } 
@@ -78,14 +97,16 @@ export class UsersService {
         }
       });
       if (!user) {
-        Logger.log(`User with id ${id} not found`);
+        this.logger.log(`User with id ${id} not found`);
         return;
       }
       
       await this.userRepository.remove(user);
     } catch (error) {
-      Logger.error(`Failed to remove user with id ${id}:`, error);
+      this.logger.error(`Failed to remove user with id ${id}:`, error);
     }
   }
 
 }
+
+export default UsersService;

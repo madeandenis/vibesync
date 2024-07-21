@@ -1,13 +1,13 @@
 import { IsString, IsEmail, IsNotEmpty, IsEnum, IsOptional } from 'class-validator';
-import { SongPlatforms } from '../entities/user.entity';
+import { MusicPlatforms } from 'constants/enums';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  third_party_user_id: number;
+  third_party_user_id: string;
 
-  @IsEnum(SongPlatforms)
+  @IsEnum(MusicPlatforms)
   @IsNotEmpty()
-  third_party_provider: SongPlatforms;
+  third_party_provider: MusicPlatforms;
 
   @IsString()
   @IsNotEmpty()

@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { Role } from './roles/enitities/roles.entity';
-
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,7 +31,8 @@ import { Role } from './roles/enitities/roles.entity';
       }),
       inject: [ConfigService], 
     }),
-    UsersModule, 
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

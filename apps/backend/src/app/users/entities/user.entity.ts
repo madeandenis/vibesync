@@ -8,13 +8,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Role } from '../../roles/enitities/roles.entity';
-import { CreateUserDto } from '../dto/create-user.dto';
-
-export enum SongPlatforms {
-  SPOTIFY = 'SPOTIFY',
-  YOUTUBE_MUSIC = 'YOUTUBE_MUSIC',
-  APPLE_PLAY = 'APPLE_PLAY',
-}
+import { MusicPlatforms } from 'constants/enums';
 
 @Entity('users')
 export class User {
@@ -22,14 +16,14 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('bigint')
-  third_party_user_id: number;
+  @Column({ type: 'varchar', length: 255 })
+  third_party_user_id: string;
 
   @Column({
     type: 'enum',
-    enum: SongPlatforms,
+    enum: MusicPlatforms,
   })
-  third_party_provider: SongPlatforms;
+  third_party_provider: MusicPlatforms;
 
   @Column({ type: 'varchar', length: 255 })
   username: string;
@@ -37,7 +31,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar' })
   refresh_token: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
