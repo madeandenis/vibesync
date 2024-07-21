@@ -47,3 +47,6 @@ Thumbs.db
 
 # Helpers
 cli_commands.txt
+
+# Currently ignore generated db migration files
+/db/migrations
