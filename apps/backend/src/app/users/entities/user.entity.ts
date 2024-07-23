@@ -6,9 +6,11 @@ import {
   UpdateDateColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
-import { Role } from '../../roles/enitities/roles.entity';
 import { MusicPlatforms } from 'constants/enums';
+import { Role } from '../../roles/enitities/roles.entity';
+import { Group } from '../../groups/entities/group.entity';
 
 @Entity('users')
 export class User {
@@ -65,4 +67,7 @@ export class User {
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
   })
   roles: Role[];
+
+  @OneToMany(() => Group, group => group.owner)
+  groups: Group[];
 }
